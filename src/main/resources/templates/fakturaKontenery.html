@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"  xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Faktura Kontenery Magazynowe</title>
+        <style>
+            h1 {
+                font-size: 80px;
+                text-align: center;
+            }
+            .border {
+                border-style: solid;
+                border-color: black;
+                border-width: 1px;
+            }
+            .sign {
+                font-family: Brush Script MT, Brush Script Std, cursive;
+                top: 50%;
+            }
+            .col {
+                height: 100%;
+                text-align: center;
+                margin: auto;
+                border-collapse: collapse;
+            }
+            .row {
+                margin: auto;
+                border-collapse: collapse;
+                clear: both;
+                display: flex;
+                align-items: center;
+                width: 100%;
+            }
+            .col {
+                width: 49%;
+            }
+            .left {
+                float: left;
+            }
+            .right {
+                float: right;
+            }
+            .col * {
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                align-content: center;
+            }
+            .row::after {
+                content: "";
+                clear: both;
+                display: block;
+            }
+            .container {
+                height: 100%;
+            }
+            .align-down {
+                top: 90%;
+            }
+
+            .biggerFont {
+                font-size: 22px;
+            }
+            .topBorder {
+                border-top: 1px solid black;
+            }
+            .footer {
+                background-color: #bdbdbd;
+                width: 100%;
+                text-align: center;
+            }
+            .tableTextLeft {
+                text-align: right;
+            }
+            .tableTextRight {
+                text-align: left;
+            }
+            .autoWidth {
+                width:auto;
+            }
+            .seller {
+                width: 100%;
+                margin: auto;
+            }
+
+            .vCenter {
+                top: 50%;
+                vertical-align: middle;
+            }
+
+            @page {
+            size: A4 portrait;
+            margin-top: 1.5cm;
+            margin-left: 2.4cm;
+            margin-right: 2.4cm;
+            margin-bottom: 1cm;
+            }
+
+            @media print {
+                #footer {
+                    position: fixed;
+                    bottom: 0;
+                    width: 100%;
+                }
+
+                #header {
+                    position: fixed;
+                    top: 0;
+                    width: 100%;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="header">
+            <h1>Faktura VAT</h1>
+            <div id="invoiceNumberPlace">
+                Faktura numer: <span id="invoiceNumber">[[${invoiceNumber}]]</span>
+            </div>
+            <div id="invoiceIssuePlace">
+                Data wystawienia: <span id="invoiceDate">[[${invoiceDate}]]</span>
+            </div>
+            <br /><br />
+
+            <table style="width:100%">
+                <tr style="width:100%">
+                    <td style="">
+                        <div th:insert="~{fragments/seller :: sellerTable(seller=${seller})}"></div>
+                    </td>
+                    <td style="width:20%"></td>
+                    <td style="">
+                        <div th:insert="~{fragments/customer :: customerTable(customer=${customer})}"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+            <br /><br />
+
+            <div th:insert="fragments/invoiceTable :: productsTable(invoice=${invoice})"></div>
+            <br />
+
+        <div id="footer">
+            <div class="row align-down">
+                <div id="paymentDetails" class="col left">
+                    <div th:insert="~{fragments/paymentDetails :: paymentDetails(seller=${seller})}"></div>
+                </div>
+                <div id="sign" class="col right vCenter">
+                    <span class="sign">Karol Wilczynski</span>
+                </div>
+            </div>
+            <div id="bottom" class="footer vCenter">Dziekuje za korzystanie z placu!</div>
+        </div>
+    </body>
+</html>
