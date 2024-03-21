@@ -35,6 +35,8 @@ dependencies {
 //	implementation("com.itextpdf:itextpdf:5.5.13.3")
 	// https://mvnrepository.com/artifact/com.google.code.gson/gson
 	implementation("com.google.code.gson:gson:2.10.1")
+	// mailing library
+	implementation("org.springframework.boot:spring-boot-starter-mail")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.projectreactor:reactor-test")
 	testImplementation("org.springframework.kafka:spring-kafka-test")
