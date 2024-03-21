@@ -1,4 +1,4 @@
-package com.plac.emailPlac
+package com.plac.emailPlac.config
 
 import org.apache.kafka.common.serialization.Serde
 import org.apache.kafka.common.serialization.Serdes

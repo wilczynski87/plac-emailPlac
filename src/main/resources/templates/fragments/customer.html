@@ -36,7 +36,7 @@
                     ulica:
                 </td>
                 <td class="tableTextRight" >
-                    <span> [[*{address.street}]] [[*{address.home}]]<span th:if="*{address.local}">/[[*{address.local}]]</span></span>
+                    <span> [[*{address?.street}]] [[*{address?.home}]]<span th:if="*{address.local}">/[[*{address.local}]]</span></span>
                 </td>
             </tr>
             <tr>

@@ -1,5 +1,7 @@
 package com.plac.emailPlac.model
 
+import java.time.LocalDate
+
 data class Invoice(
     val invoiceNumber:String,
     val invoiceDate:String,
@@ -9,7 +11,9 @@ data class Invoice(
     val vatAmountSum:String,
     val priceSum:String,
     val priceWithVatSum:String,
-    val paymentDay:String,
+    val paymentDay:String = LocalDate.now().toString(),
+    val mainAccount:String = "50 1950 0001 2006 0023 6241 0001",
+    val taxAccount:String = "23 1950 0001 2006 0023 6241 0002",
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true

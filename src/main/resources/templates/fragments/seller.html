@@ -9,9 +9,11 @@
     <th:block th:fragment="seller" th:object="${seller}">
         <span>Sprzedawca:</span>
         <span>nazwa: [[*{name}]]</span>
-        <span>ulica:[[*{address.street}]] [[*{address.home}]] <span th:if="*{address.local}">/[[*{address.local}]]</span></span>
-        <span>poczta: [[*{address.city}]] [[*{address.post}]]</span>
-        <span>kraj: [[*{address.country}]]</span>
+        <span th:unless="*{address}">Ostrowskiego 102</span>
+        <span th:if="*{address}">ulica:[[*{address.street}]] [[*{address.home}]] <span th:if="*{address.local}">/[[*{address.local}]]</span></span>
+        <span th:unless="*{address}">Wroclaw, 53-238</span>
+        <span th:if="*{address}">poczta: [[*{address.city}]] [[*{address.post}]]</span>
+        <span>kraj: [[*{address?.country}]]</span>
         <span>nip: [[*{nip}]]</span>
     </th:block>
 

@@ -16,7 +16,7 @@ import java.util.Date
 class TemplateCreator(private val templateEngine: TemplateEngine) {
 
     // Constans for invoice
-    private final val karolAddress:Address = Address("ul. Ostrowskiego", 102, null, "Wrocław","53-238")
+    private final val karolAddress:Address = Address("ul. Ostrowskiego", "102", null, "Wrocław","53-238")
     private final val karolCompany:Seller = Seller("Karol Wilczynski",
         karolAddress,
         "8942957044",
@@ -67,6 +67,18 @@ class TemplateCreator(private val templateEngine: TemplateEngine) {
         context.setVariable("seller", karolCompany)
         context.setVariable("customer", customer)
         context.setVariable("invoiceDate", invoiceDate)
+        context.setVariable("invoice", invoice)
+
+//        println(templateEngine.process("test.html", fragments, context))
+
+        return templateEngine.process("fakturaKontenery.html", fragments, context)
+    }
+
+    fun parseInvoiceForContainers(invoice:Invoice): String {
+
+        val fragments: MutableSet<String> = HashSet()
+
+        val context: Context = Context()
         context.setVariable("invoice", invoice)
 
 //        println(templateEngine.process("test.html", fragments, context))

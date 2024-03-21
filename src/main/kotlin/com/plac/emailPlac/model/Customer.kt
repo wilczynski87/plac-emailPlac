@@ -6,4 +6,7 @@ open class Customer(val name:String,
                val email:String,
                val phone:String,
     ) {
+    override fun toString(): String {
+        return "Customer(name='$name', address=$address, nip='$nip', email='$email', phone='$phone')"
+    }
 }
