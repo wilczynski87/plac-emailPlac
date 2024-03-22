@@ -29,7 +29,7 @@ class TemplateCreatorMail(
 
         val fragments: MutableSet<String> = HashSet()
 
-        val html: String = templateEngine.process("invoiceYard.html", fragments, context)
+        val html: String = templateEngine.process("mails/invoiceYard.html", fragments, context)
 
         return html
     }

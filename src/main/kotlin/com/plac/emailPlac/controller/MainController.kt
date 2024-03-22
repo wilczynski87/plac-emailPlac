@@ -1,16 +1,20 @@
 package com.plac.emailPlac.controller
 
 import com.plac.emailPlac.model.*
-import com.plac.emailPlac.service.PdfGenerator
-import com.plac.emailPlac.service.TemplateCreator
+import com.plac.emailPlac.service.mail.MailService
+import com.plac.emailPlac.service.pdf.PdfGenerator
+import com.plac.emailPlac.service.pdf.TemplateCreator
+import org.springframework.core.io.InputStreamSource
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
+import java.io.ByteArrayInputStream
+import java.io.InputStream
 import java.time.LocalDate
 
 
 @Controller
-class MainController(val templateCreator: TemplateCreator, val pdfGenerator: PdfGenerator) {
+class MainController(val templateCreator: TemplateCreator, val pdfGenerator: PdfGenerator, val mailService: MailService) {
     // Constans for invoice
     private final val karolAddress: Address = Address("ul. Ostrowskiego", "102", null, "Wrocław","53-238")
     private final val karolCompany: Seller = Seller("Karol Wilczynski",
@@ -42,6 +46,12 @@ class MainController(val templateCreator: TemplateCreator, val pdfGenerator: Pdf
         "950",
         "1168,5",
         paymentDay)
+    val emailWithByteArray: EmailDetails = EmailDetails(
+        "test" ,
+        "parkingostrowskiego@gmail.com",
+        "test",
+        null,
+        null)
 
     @GetMapping("/test")
     fun appHealtCheck(): ResponseEntity<String> {
@@ -52,7 +62,17 @@ class MainController(val templateCreator: TemplateCreator, val pdfGenerator: Pdf
     fun testPdf():ResponseEntity<Any> {
         val template = templateCreator.parseInvoiceForContainers(invoice)
 //        println(template)
-        val pdf = pdfGenerator.generatePdfFromHtml(template, "")
+        val pdf = pdfGenerator.generatePdfFromHtml(template, "baTest")
+        println(pdf)
+        return ResponseEntity.ok(pdf)
+    }
+
+    @GetMapping("/testSendMailWithPdf")
+    fun testSendMailWithPdf():ResponseEntity<Any> {
+        val template = templateCreator.parseInvoiceForContainers(invoice)
+//        println(template)
+        val pdf = pdfGenerator.generatePdfInvoiceFromHtml(template, "invoiceTest")
+        mailService.sendEmailTEST(emailWithByteArray.name, emailWithByteArray.targetEmail, emailWithByteArray.subject, emailWithByteArray.text, pdf)
         println(pdf)
         return ResponseEntity.ok(pdf)
     }

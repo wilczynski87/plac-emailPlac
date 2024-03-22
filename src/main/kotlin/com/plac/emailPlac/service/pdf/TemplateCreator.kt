@@ -1,4 +1,4 @@
-package com.plac.emailPlac.service
+package com.plac.emailPlac.service.pdf
 
 import com.plac.emailPlac.model.*
 import org.springframework.stereotype.Service
@@ -58,22 +58,6 @@ class TemplateCreator(private val templateEngine: TemplateEngine) {
         return templateEngine.process("test.html", fragments, context)
     }
 
-    fun parseInvoiceForContainers(): String {
-
-        val fragments: MutableSet<String> = HashSet()
-
-        val context: Context = Context()
-        context.setVariable("invoiceNumber", "1/03/24")
-        context.setVariable("seller", karolCompany)
-        context.setVariable("customer", customer)
-        context.setVariable("invoiceDate", invoiceDate)
-        context.setVariable("invoice", invoice)
-
-//        println(templateEngine.process("test.html", fragments, context))
-
-        return templateEngine.process("fakturaKontenery.html", fragments, context)
-    }
-
     fun parseInvoiceForContainers(invoice:Invoice): String {
 
         val fragments: MutableSet<String> = HashSet()
@@ -81,7 +65,14 @@ class TemplateCreator(private val templateEngine: TemplateEngine) {
         val context: Context = Context()
         context.setVariable("invoice", invoice)
 
-//        println(templateEngine.process("test.html", fragments, context))
+        return templateEngine.process("fakturaKontenery.html", fragments, context)
+    }
+    fun parseInvoiceForYard(invoice:Invoice): String {
+
+        val fragments: MutableSet<String> = HashSet()
+
+        val context: Context = Context()
+        context.setVariable("invoice", invoice)
 
         return templateEngine.process("fakturaKontenery.html", fragments, context)
     }
