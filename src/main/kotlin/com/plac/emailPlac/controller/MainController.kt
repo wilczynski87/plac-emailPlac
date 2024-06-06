@@ -1,6 +1,7 @@
 package com.plac.emailPlac.controller
 
 import com.plac.emailPlac.model.*
+import com.plac.emailPlac.service.SendMailWithInvoice
 import com.plac.emailPlac.service.mail.MailService
 import com.plac.emailPlac.service.pdf.PdfGenerator
 import com.plac.emailPlac.service.pdf.TemplateCreator
@@ -14,7 +15,7 @@ import java.time.LocalDate
 
 
 @Controller
-class MainController(val templateCreator: TemplateCreator, val pdfGenerator: PdfGenerator, val mailService: MailService) {
+class MainController(val templateCreator: TemplateCreator, val pdfGenerator: PdfGenerator, val mailService: MailService, val sendMailWithInvoice: SendMailWithInvoice) {
     // Constans for invoice
     private final val karolAddress: Address = Address("ul. Ostrowskiego", "102", null, "Wrocław","53-238")
     private final val karolCompany: Seller = Seller("Karol Wilczynski",
@@ -26,7 +27,7 @@ class MainController(val templateCreator: TemplateCreator, val pdfGenerator: Pdf
         "23 1950 0001 2006 0023 6241 0002",
         "11 2490 1044 0000 4200 8845 2192")
     // test values
-    final val customer: Customer = Customer("Customer name",
+    final val customer: Customer = Customer("znaki polskie: ĄĆÓŻŹŁ",
         karolAddress,
         "8942957044",
         "wilczynski87@gmail.com",
@@ -50,7 +51,7 @@ class MainController(val templateCreator: TemplateCreator, val pdfGenerator: Pdf
         "test" ,
         "parkingostrowskiego@gmail.com",
         "test",
-        null,
+        "znaki polskie: ĄĆÓŻŹŁ",
         null)
 
     @GetMapping("/test")
@@ -60,21 +61,41 @@ class MainController(val templateCreator: TemplateCreator, val pdfGenerator: Pdf
 
     @GetMapping("/testPdfGenerator")
     fun testPdf():ResponseEntity<Any> {
+        println("\n\n/testPdfGenerator")
         val template = templateCreator.parseInvoiceForContainers(invoice)
-//        println(template)
-        val pdf = pdfGenerator.generatePdfFromHtml(template, "baTest")
+        println("\n\nTemplate:")
+        println(template)
+//        val pdf = pdfGenerator.generatePdfInvoiceFromHtml(template, "baTest")
+        val pdf = pdfGenerator.generatePdfFileFromHtml(template, "baTest")
+        println("\n\nPDF:")
         println(pdf)
-        return ResponseEntity.ok(pdf)
+        return ResponseEntity.ok(template)
     }
 
     @GetMapping("/testSendMailWithPdf")
     fun testSendMailWithPdf():ResponseEntity<Any> {
         val template = templateCreator.parseInvoiceForContainers(invoice)
-//        println(template)
-        val pdf = pdfGenerator.generatePdfInvoiceFromHtml(template, "invoiceTest")
-        mailService.sendEmailTEST(emailWithByteArray.name, emailWithByteArray.targetEmail, emailWithByteArray.subject, emailWithByteArray.text, pdf)
-        println(pdf)
+        println("stworzenie templata faktury")
+//        val pdf = pdfGenerator.generatePdfInvoiceFromHtml(template, "invoiceTest")
+        val pdf = pdfGenerator.generatePdfByteArrayFromHtmlTo(template, "invoiceTest")
+        println("pdfGenerator zadzialal ok")
+        mailService.sendEmailInvoiceYard(
+            emailWithByteArray.name,
+            emailWithByteArray.targetEmail,
+            emailWithByteArray.subject,
+            emailWithByteArray.text,
+            pdf,
+            "invoice name",
+            "invoice template",
+        )
+        println("mail wyslany! ")
         return ResponseEntity.ok(pdf)
+    }
+
+    @GetMapping("/testSendMailWithInvoice")
+    fun testSendMailWithInvoice():ResponseEntity<Any> {
+        sendMailWithInvoice.send(invoice)
+        return ResponseEntity.ok("poszedł mail z pdf")
     }
 
 }

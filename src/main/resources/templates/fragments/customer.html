@@ -1,16 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Customer</title>
 </head>
 <body>
 
     <th:block th:fragment="customer" th:object="${customer}">
         <span>Nabywca:</span>
-        <span>nazwa: [[*{name}]]</span>
-        <span>ulica: [[*{address.street}]] [[*{address.home}]] <span th:if="*{address.local}">/[[*{address.local}]]</span></span>
-        <span>poczta: [[*{address.city}]] [[*{address.post}]]</span>
+        <span>nazwa: <span th:text="*{name}">Drogi kliencie</span></span>
+        <span>ulica: <span th:text="*{address.street address.home}"> </span><span th:if="*{address.local}">/[[*{address.local}]]</span></span>
+        <span>poczta: <span th:text="*{address.city, address.post}"></span></span>
         <span>kraj: [[*{address.country}]]</span>
         <span>nip: [[*{nip}]]</span>
     </th:block>

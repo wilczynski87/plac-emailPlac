@@ -1,8 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"  xmlns="http://www.w3.org/1999/xhtml">
+<html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <title>Faktura Kontenery Magazynowe</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <style>
+            @charset "UTF-8";
+            body {
+                font-family: Voces;
+            }
             h1 {
                 font-size: 80px;
                 text-align: center;
@@ -13,7 +21,7 @@
                 border-width: 1px;
             }
             .sign {
-                font-family: Brush Script MT, Brush Script Std, cursive;
+                font-family: "Alex Brush", 'Brush Script Std', cursive;
                 top: 50%;
             }
             .col {
@@ -150,10 +158,10 @@
                     <div th:insert="~{fragments/paymentDetails :: paymentDetails(seller=${invoice.seller})}"></div>
                 </div>
                 <div id="sign" class="col right vCenter">
-                    <span class="sign">Karol Wilczynski</span>
+                    <span class="sign">Karol Wilczyński</span>
                 </div>
             </div>
-            <div id="bottom" class="footer vCenter">Dziekuje za korzystanie z placu!</div>
+            <div id="bottom" class="footer vCenter">Dziękuje za korzystanie z placu!</div>
         </div>
     </body>
 </html>

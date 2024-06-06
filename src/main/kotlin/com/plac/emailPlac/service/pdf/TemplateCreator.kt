@@ -4,8 +4,11 @@ import com.plac.emailPlac.model.*
 import org.springframework.stereotype.Service
 import org.thymeleaf.TemplateEngine
 import org.thymeleaf.context.Context
+import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver
+import org.thymeleaf.spring6.view.ThymeleafViewResolver
 import org.thymeleaf.templatemode.TemplateMode
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver
+import org.thymeleaf.templateresolver.ITemplateResolver
 import org.thymeleaf.util.DateUtils
 import java.text.DateFormat
 import java.time.LocalDate
@@ -73,6 +76,7 @@ class TemplateCreator(private val templateEngine: TemplateEngine) {
 
         val context: Context = Context()
         context.setVariable("invoice", invoice)
+//        println(templateEngine.process("fakturaKontenery.html", fragments, context)) // check invoice
 
         return templateEngine.process("fakturaKontenery.html", fragments, context)
     }

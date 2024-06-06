@@ -9,8 +9,8 @@ package com.plac.emailPlac.model
 //             val vatAccount:String,
 //             val prvAccount:String,
 //)  {
-class Seller(name:String = "Karol Wilczynski",
-             address:Address = Address("Ostrowskiego", "102", "", "Wroclaw", "53-238"),
+class Seller(name:String = "Karol Wilczyński",
+             address:Address = Address("Ostrowskiego", "102", "", "Wrocław", "53-238"),
              nip:String = "8942957044",
              email:String = "parkingostrowskiego@gmail.com",
              phone:String = "507036484",

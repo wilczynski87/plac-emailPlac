@@ -1,6 +1,5 @@
 package com.plac.emailPlac
 
-import org.apache.kafka.streams.KafkaStreams
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 

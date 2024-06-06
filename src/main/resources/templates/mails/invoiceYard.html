@@ -1,11 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"  xmlns="http://www.w3.org/1999/xhtml">
-<head>
-    <meta charset="UTF-8">
-    <title>Invoice Yard</title>
-</head>
-<body>
-<H1> Invoice Yard</H1>
-
-</body>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Invoice Yard</title>
+    </head>
+    <body>
+        <H1>Witam <span th:text="${invoiceTemplate.salutation}"></span></H1>
+        <p>W załączniku przesyłąm fakturę za <span th:text="${invoiceTemplate.month}"></span></p>
+        <br>
+        <p>Dziękuje za pozostawanie moim klientem</p>
+        <p>Karol Wilczyński</p>
+        <p>tel. 507 036 484</p>
+    </body>
 </html>

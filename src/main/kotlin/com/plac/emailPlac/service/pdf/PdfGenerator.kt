@@ -1,6 +1,6 @@
 package com.plac.emailPlac.service.pdf
 
-//import org.xhtmlrenderer.pdf.ITextRenderer
+import com.lowagie.text.pdf.BaseFont
 import jakarta.activation.DataSource
 import jakarta.mail.util.ByteArrayDataSource
 import org.springframework.stereotype.Service
@@ -16,14 +16,20 @@ class PdfGenerator {
 //    val pdfDirectory: String = "C:\\Users\\wilcz\\OneDrive\\Documents\\VCSProjects\\emailPlac\\src\\main\\resources\\"
     val pdfDirectory: String = (System.getProperty("user.home") + File.separator).toString()
 
-    fun generatePdfFromHtml(html: String?, invoiceName:String?): File? {
+    fun generatePdfFileFromHtml(html: String?, invoiceName:String?): File? {
         val name: String = "${if(invoiceName == null || invoiceName == "") "invoice" else invoiceName}.pdf"
 //        println(pdfDirectory)
-        val outputFolder = (System.getProperty("user.home") + File.separator).toString() + name
+        val outputFolder = (System.getProperty("user.home") + File.separator) + name
         val outputStream: OutputStream = FileOutputStream(outputFolder)
 
         val renderer = ITextRenderer()
+
+        renderer.fontResolver.addFont("templates/fonts/AlexBrush-Regular.ttf", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED)
+        renderer.fontResolver.addFont("templates/fonts/Voces-Regular.ttf", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED)
         renderer.setDocumentFromString(html!!)
+
+        println(renderer.fontResolver.fonts.values.forEach { x -> println(x.name) }) // check if font is in
+
         renderer.layout()
         renderer.createPDF(outputStream)
 
@@ -33,10 +39,13 @@ class PdfGenerator {
         return file
     }
 
-    fun generatePdfFromHtmlToByteArray(html: String?, invoiceName:String?): ByteArray {
+    fun generatePdfByteArrayFromHtmlTo(html: String?, invoiceName:String? = "faktura"): ByteArray {
         val byteArrayOutputStream: ByteArrayOutputStream = ByteArrayOutputStream()
 
         val renderer = ITextRenderer()
+        renderer.fontResolver.addFont("templates/fonts/AlexBrush-Regular.ttf", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED)
+        renderer.fontResolver.addFont("templates/fonts/Voces-Regular.ttf", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED)
+
         renderer.setDocumentFromString(html!!)
         renderer.layout()
         renderer.createPDF(byteArrayOutputStream)
@@ -44,11 +53,10 @@ class PdfGenerator {
         val byteArray: ByteArray = byteArrayOutputStream.toByteArray()
         byteArrayOutputStream.close()
 
-        println(byteArray)
         return byteArray
     }
 
-    fun generatePdfInvoiceFromHtml(html: String?, invoiceName:String?): DataSource {
+    fun generatePdfInvoiceFromHtml(html: String?, invoiceName:String? = "faktura"): DataSource {
         val outputStream: ByteArrayOutputStream = ByteArrayOutputStream()
 
         val renderer = ITextRenderer()
@@ -57,6 +65,7 @@ class PdfGenerator {
         renderer.createPDF(outputStream)
 
         val dataSource: DataSource = ByteArrayDataSource(outputStream.toByteArray(), "application/pdf")
+
         outputStream.close()
 
 
