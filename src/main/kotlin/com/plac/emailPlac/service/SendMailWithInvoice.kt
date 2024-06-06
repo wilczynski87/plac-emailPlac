@@ -29,17 +29,6 @@ class SendMailWithInvoice(
         )
         val mailTemplateHTML:String = mailTemplateCreator.sendInvoiceYard(name = "Drogi Kliencie", null, invoice)
 
-        // sending mail
-//        mailService.sendEmailInvoiceYard(
-//            invoice.customer.name,
-//            invoice.customer.email,
-////            "wilczynski87@gmail.com",
-//            "Faktura za kontener przy Ostrowskiego 102",
-//            "",
-//            pdfInvoice,
-//            invoiceName(invoice),
-//            mailTemplateHTML,
-//            )
         mailService.sendEmailInvoiceYard(
             invoice.customer.name,
             if(checkProfileIsDev()) "wilczynski87@gmail.com" else invoice.customer.email,
