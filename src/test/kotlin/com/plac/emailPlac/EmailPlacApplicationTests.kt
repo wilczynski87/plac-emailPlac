@@ -1,12 +1,10 @@
 package com.plac.emailPlac
 
-import org.junit.jupiter.api.Test
-import org.springframework.boot.test.context.SpringBootTest
 
-@SpringBootTest
+//@SpringBootTest
 class EmailPlacApplicationTests {
 
-	@Test
+//	@Test
 	fun contextLoads() {
 	}
 

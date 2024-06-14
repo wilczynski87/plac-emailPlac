@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html lang="pl" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Faktura do Druku</title>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    </head>
+    <body>
+
+    <th:block th:each="invoice: ${invoices}">
+        <p>invoice</p>
+        <div th:insert="~{fakturaKontenery}"></div>
+    </th:block>
+
+    <div th:each="invoice: ${invoices}">
+        <div class="header">
+            <h1>Faktura VAT</h1>
+            <div id="invoiceNumberPlace">
+                Faktura numer: <span id="invoiceNumber">[[${invoice.invoiceNumber}]]</span>
+            </div>
+            <div id="invoiceIssuePlace">
+                Data wystawienia: <span id="invoiceDate">[[${invoice.invoiceDate}]]</span>
+            </div>
+            <br /><br />
+
+            <table style="width:100%">
+                <tr style="width:100%">
+                    <td style="">
+                        <div th:insert="~{fragments/seller :: sellerTable(seller=${invoice.seller})}"></div>
+                    </td>
+                    <td style="width:20%"></td>
+                    <td style="">
+                        <div th:insert="~{fragments/customer :: customerTable(customer=${invoice.customer})}"></div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <br /><br />
+
+        <div th:insert="~{fragments/invoiceTable :: productsTable(invoice=${invoice})}"></div>
+        <br />
+
+        <div id="footer">
+            <div class="row align-down">
+                <div id="paymentDetails" class="col left">
+                    <div th:insert="~{fragments/paymentDetails :: paymentDetails(seller=${invoice.seller})}"></div>
+                </div>
+                <div id="sign" class="col right vCenter">
+                    <span class="sign">Karol Wilczyński</span>
+                </div>
+            </div>
+            <div id="bottom" class="footer vCenter">Dziękuje za korzystanie z placu!</div>
+        </div>
+    </div>
+
+    </body>
+    </html>

@@ -41,6 +41,17 @@ class TemplateCreatorMail(
         return html
     }
 
+    fun sendInvoicesToPrint(): String {
+
+        val context: Context = Context()
+
+        val fragments: MutableSet<String> = HashSet()
+
+        val html: String = templateEngine.process("mails/invoicesToPrint.html", fragments, context)
+
+        return html
+    }
+
     private fun invoiceVariableParser(invoice: Invoice?): InvoiceTemplate {
         return InvoiceTemplate(
             invoice?.customer?.salutation ?: "Drogi Kliencie",

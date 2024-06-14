@@ -5,12 +5,14 @@ import com.plac.emailPlac.service.mail.MailService
 import com.plac.emailPlac.service.mail.TemplateCreatorMail
 import com.plac.emailPlac.service.pdf.PdfGenerator
 import com.plac.emailPlac.service.pdf.TemplateCreator
-import jakarta.activation.DataSource
-import org.springframework.boot.autoconfigure.amqp.RabbitProperties.Stream
 import org.springframework.core.env.ConfigurableEnvironment
 import org.springframework.stereotype.Service
+import java.io.ByteArrayOutputStream
+import java.nio.ByteBuffer
 import java.util.*
 import java.util.function.Predicate
+import java.util.stream.Stream
+import kotlin.collections.ArrayList
 
 @Service
 class SendMailWithInvoice(
@@ -36,6 +38,32 @@ class SendMailWithInvoice(
             "",
             pdfInvoice,
             invoiceName(invoice),
+            mailTemplateHTML,
+        )
+    }
+
+    fun sendToPrint(invoices: List<Invoice>) {
+        println(invoices[0])
+        val invoicesArr = invoices.stream()
+            .map { invoice -> templateCreator.parseInvoiceForYard(invoice) }
+            .toList()
+
+        val pdfInvoice:ByteArray = pdfGenerator.generatePdfToPrint(
+            invoicesArr, // Invoice template
+            "to print", // pdf name
+        )
+
+        val mailTemplateHTML:String = mailTemplateCreator.sendInvoicesToPrint()
+
+        val okres = invoices[0].invoiceDate
+
+        mailService.sendEmailWithInvoiceToPrint(
+            "Faktury do druku, za okres " + okres,
+            if(checkProfileIsDev()) "wilczynski87@gmail.com" else "parkingostrowskiego@gmail.com",
+            "Faktura do druku za okres " + okres,
+            "",
+            pdfInvoice,
+            "do druku",
             mailTemplateHTML,
         )
     }

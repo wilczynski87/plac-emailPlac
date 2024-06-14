@@ -9,6 +9,7 @@ import org.springframework.core.io.InputStreamSource
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
+import org.thymeleaf.context.Context
 import java.io.ByteArrayInputStream
 import java.io.InputStream
 import java.time.LocalDate
@@ -40,6 +41,15 @@ class MainController(val templateCreator: TemplateCreator, val pdfGenerator: Pdf
     )
     val invoice: Invoice = Invoice("1/03/24",
         "13/03/2024",
+        karolCompany,
+        customer,
+        products,
+        "218,5",
+        "950",
+        "1168,5",
+        paymentDay)
+    val invoice2: Invoice = Invoice("DUPA2222",
+        "DUPAAA",
         karolCompany,
         customer,
         products,
@@ -95,6 +105,13 @@ class MainController(val templateCreator: TemplateCreator, val pdfGenerator: Pdf
     @GetMapping("/testSendMailWithInvoice")
     fun testSendMailWithInvoice():ResponseEntity<Any> {
         sendMailWithInvoice.send(invoice)
+        return ResponseEntity.ok("poszedł mail z pdf")
+    }
+
+    @GetMapping("/invoicesToPrint")
+    fun invoicesToPrintTest():ResponseEntity<Any> {
+        sendMailWithInvoice.sendToPrint(listOf(invoice, invoice2))
+
         return ResponseEntity.ok("poszedł mail z pdf")
     }
 

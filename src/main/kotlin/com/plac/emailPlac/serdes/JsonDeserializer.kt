@@ -26,7 +26,6 @@ class JsonDeserializer<T> : Deserializer<T?> {
     }
 
     override fun deserialize(topic: String, bytes: ByteArray): T? {
-        if (bytes == null) return null
 
         try {
             val type = if (destinationClass != null) destinationClass!! else reflectionTypeToken!!

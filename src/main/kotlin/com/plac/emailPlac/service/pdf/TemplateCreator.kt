@@ -50,17 +50,6 @@ class TemplateCreator(private val templateEngine: TemplateEngine) {
         "1168,5",
         paymentDay)
 
-
-    fun parseThymeleafTemplate(): String {
-
-        val fragments: MutableSet<String> = HashSet()
-
-        val context: Context = Context()
-        context.setVariable("test1", "To jest test")
-
-        return templateEngine.process("test.html", fragments, context)
-    }
-
     fun parseInvoiceForContainers(invoice:Invoice): String {
 
         val fragments: MutableSet<String> = HashSet()

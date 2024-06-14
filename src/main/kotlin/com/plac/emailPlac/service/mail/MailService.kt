@@ -40,6 +40,43 @@ class MailService(
         emailSender.send(message)
     }
 
+    fun sendEmailWithInvoiceToPrint(
+        name: String? = "Drogi Kliencie",
+        targetEmail: String,
+        subject: String? = "Faktura, plac Ostrowskiego 102",
+        text: String?,
+        invoices: List<ByteArray>,
+        invoiceName: String,
+        mailTemplate: String,
+    ) {
+        val message: MimeMessage = emailSender.createMimeMessage()
+        val helper = MimeMessageHelper(message, true)
+        helper.setTo(targetEmail)
+        helper.setFrom("parkingostrowskiego@gmail.com", "Od Karola z Ostrowskiego 102")
+        helper.setSubject(subject ?: "Faktura z Ostrowskiego 102")
+        helper.setText(mailTemplate, true)
+        for(invoice in invoices) helper.addAttachment(invoiceName, ByteArrayDataSource(invoice, MediaType(MediaType.APPLICATION_PDF, Charsets.UTF_8).toString()))
+        emailSender.send(message)
+    }
+    fun sendEmailWithInvoiceToPrint(
+        name: String? = "Drogi Kliencie",
+        targetEmail: String,
+        subject: String? = "Faktura, plac Ostrowskiego 102",
+        text: String?,
+        invoices: ByteArray,
+        invoiceName: String,
+        mailTemplate: String,
+    ) {
+        val message: MimeMessage = emailSender.createMimeMessage()
+        val helper = MimeMessageHelper(message, true)
+        helper.setTo(targetEmail)
+        helper.setFrom("parkingostrowskiego@gmail.com", "Od Karola z Ostrowskiego 102")
+        helper.setSubject(subject ?: "Faktura z Ostrowskiego 102")
+        helper.setText(mailTemplate, true)
+        helper.addAttachment(invoiceName, ByteArrayDataSource(invoices, MediaType(MediaType.APPLICATION_PDF, Charsets.UTF_8).toString()))
+        emailSender.send(message)
+    }
+
 
     fun sendEmailTEST(
         name: String? = "test",

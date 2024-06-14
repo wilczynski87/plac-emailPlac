@@ -56,21 +56,29 @@ class PdfGenerator {
         return byteArray
     }
 
-    fun generatePdfInvoiceFromHtml(html: String?, invoiceName:String? = "faktura"): DataSource {
-        val outputStream: ByteArrayOutputStream = ByteArrayOutputStream()
+    fun generatePdfToPrint(htmls: List<String>, invoiceName:String? = "faktura"): ByteArray {
+        val byteArrayOutputStream: ByteArrayOutputStream = ByteArrayOutputStream()
 
         val renderer = ITextRenderer()
-        renderer.setDocumentFromString(html!!)
-        renderer.layout()
-        renderer.createPDF(outputStream)
+        renderer.fontResolver.addFont("templates/fonts/AlexBrush-Regular.ttf", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED)
+        renderer.fontResolver.addFont("templates/fonts/Voces-Regular.ttf", BaseFont.IDENTITY_H, BaseFont.NOT_EMBEDDED)
 
-        val dataSource: DataSource = ByteArrayDataSource(outputStream.toByteArray(), "application/pdf")
+        renderer.setDocumentFromString(htmls[0]);
+        renderer.layout();
+        renderer.createPDF(byteArrayOutputStream, false);
 
-        outputStream.close()
+        for(html in htmls) {
+            if(html == htmls[0]) continue // skip first
+            renderer.setDocumentFromString(html)
+            renderer.layout()
+            renderer.writeNextDocument()
+        }
 
+        renderer.finishPDF()
 
-        return dataSource
+        val byteArray: ByteArray = byteArrayOutputStream.toByteArray()
+        byteArrayOutputStream.close()
+
+        return byteArray
     }
-
-
 }

@@ -44,4 +44,8 @@ data class Invoice(
         result = 31 * result + priceWithVatSum.hashCode()
         return result
     }
+
+    override fun toString(): String {
+        return "Invoice(invoiceNumber='$invoiceNumber', invoiceDate='$invoiceDate', seller=$seller, customer=$customer, products=${products.contentToString()}, vatAmountSum='$vatAmountSum', priceSum='$priceSum', priceWithVatSum='$priceWithVatSum', paymentDay='$paymentDay', mainAccount='$mainAccount', taxAccount='$taxAccount')"
+    }
 }
